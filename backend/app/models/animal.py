@@ -1,11 +1,15 @@
 from datetime import datetime, timezone
 
+from app.utils.id_generator import generate_animal_id
+
 
 def create_animal_document(
     animal,
     created_by
 ):
     return {
+
+        "animal_id": generate_animal_id(),
 
         "name": animal.name,
 
