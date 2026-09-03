@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routes.animal import router as animal_router
+
+from fastapi import Depends
+from app.dependencies.auth import get_current_user
+
 from app.database.connection import db
 from app.routes.auth import router as auth_router
 
@@ -24,6 +29,7 @@ app.add_middleware(
 
 # Register all authentication routes
 app.include_router(auth_router)
+app.include_router(animal_router)
 
 
 @app.get("/")
@@ -45,4 +51,13 @@ def test_db():
     return {
         "status": "Success",
         "inserted_id": str(result.inserted_id)
+    }
+
+@app.get("/profile")
+def profile(
+    current_user=Depends(get_current_user)
+):
+    return {
+        "message": "Welcome!",
+        "user": current_user
     }
