@@ -6,3 +6,7 @@ class UserRegister(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8)
     role: str = "citizen"
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str

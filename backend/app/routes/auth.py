@@ -2,9 +2,12 @@ from fastapi import APIRouter, HTTPException, status
 
 from app.database.connection import db
 from app.models.user import create_user_document
-from app.schemas.user import UserRegister
-from app.utils.security import hash_password
-
+from app.schemas.user import UserRegister, UserLogin
+from app.utils.security import (
+    hash_password,
+    verify_password,
+    create_access_token,
+)
 
 router = APIRouter(
     prefix="/auth",
@@ -52,4 +55,40 @@ def register_user(user: UserRegister):
     return {
         "message": "User registered successfully",
         "user_id": str(result.inserted_id)
+    }
+
+
+@router.post("/login")
+def login_user(user: UserLogin):
+
+    existing_user = db.users.find_one({
+        "email": user.email.lower()
+    })
+
+    if not existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+
+    if not verify_password(
+        user.password,
+        existing_user["password"]
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+
+    access_token = create_access_token(
+        {
+            "sub": str(existing_user["_id"]),
+            "email": existing_user["email"],
+            "role": existing_user["role"]
+        }
+    )
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
     }
