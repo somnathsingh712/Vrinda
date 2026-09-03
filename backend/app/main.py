@@ -1,44 +1,37 @@
-
-
-# from fastapi import FastAPI
-
-# app = FastAPI()
-
-# @app.get("/")
-# def root():
-#     return {"message": "Welcome to Vrinda"}
-
-
-# from app.database.connection import db
-# from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
-
-# app = FastAPI()
-
-# origins = [
-#     "http://localhost:5173",
-# ]
-
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-# @app.get("/")
-# def root():
-#     return {"message": "Welcome to Vrinda"}
-
 from fastapi import FastAPI
-from app.database.connection import db
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.database.connection import db
+from app.routes.auth import router as auth_router
+
+app = FastAPI(
+    title="Vrinda API",
+    version="1.0.0"
+)
+
+# Allow React frontend to access the backend
+origins = [
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Register all authentication routes
+app.include_router(auth_router)
+
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to Vrinda"}
+    return {
+        "message": "Welcome to Vrinda"
+    }
+
 
 @app.get("/test-db")
 def test_db():
