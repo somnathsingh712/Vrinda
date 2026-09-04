@@ -71,8 +71,8 @@ function Sidebar() {
             return (
               <li key={item.path}>
                 <NavLink
-                  to={item.path}
-                  end={item.path === "/"}
+  to={item.path}
+  end={item.path === "/" || item.path === "/animals"}
                   className={({ isActive }) =>
                     `flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
                       isActive
