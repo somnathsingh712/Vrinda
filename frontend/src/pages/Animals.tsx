@@ -53,7 +53,6 @@ function Animals() {
           </p>
         </div>
       ) : animals.length === 0 ? (
-        /* Empty State */
         <div className="mt-8 rounded-xl border border-gray-200 bg-white p-10 text-center shadow-sm">
           <h2 className="text-2xl font-semibold">
             No animals registered
@@ -71,7 +70,6 @@ function Animals() {
           </Link>
         </div>
       ) : (
-        /* Animal Table */
         <div className="mt-8 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <table className="min-w-full">
             <thead className="bg-gray-100">
@@ -113,13 +111,13 @@ function Animals() {
                   </td>
 
                   <td className="px-4 py-3 font-medium">
-  <a
-    href={`/animals/${animal.animal_id}`}
-    className="text-blue-600 hover:underline"
-  >
-    {animal.name}
-  </a>
-</td>
+                    <Link
+                      to={`/animals/${animal.animal_id}`}
+                      className="text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                      {animal.name}
+                    </Link>
+                  </td>
 
                   <td className="px-4 py-3">
                     {animal.species}
