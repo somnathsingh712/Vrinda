@@ -113,8 +113,13 @@ function Animals() {
                   </td>
 
                   <td className="px-4 py-3 font-medium">
-                    {animal.name}
-                  </td>
+  <a
+    href={`/animals/${animal.animal_id}`}
+    className="text-blue-600 hover:underline"
+  >
+    {animal.name}
+  </a>
+</td>
 
                   <td className="px-4 py-3">
                     {animal.species}

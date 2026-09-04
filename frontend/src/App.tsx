@@ -6,6 +6,8 @@ import {
 
 import AppLayout from "./layouts/AppLayout";
 
+import AnimalDetails from "./pages/AnimalDetails";
+
 import Dashboard from "./pages/Dashboard";
 import Animals from "./pages/Animals";
 import RegisterAnimal from "./pages/RegisterAnimal";
@@ -48,6 +50,12 @@ function App() {
             path="/vaccinations"
             element={<Vaccinations />}
           />
+
+          <Route
+    path="/animals/:animalId"
+    element={<AnimalDetails />}
+/>
+
 
           <Route
             path="/settings"

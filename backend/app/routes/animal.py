@@ -52,9 +52,15 @@ from fastapi import APIRouter
 from app.database.connection import db
 from app.schemas.animal import AnimalCreate
 from app.models.animal import create_animal_document
+
+from fastapi import APIRouter, HTTPException
+
+from app.schemas.animal import AnimalCreate
+from app.models.animal import create_animal_document
 from app.services.animal_service import (
     create_animal,
     get_all_animals,
+    get_animal_by_id,
 )
 
 router = APIRouter(
@@ -89,6 +95,21 @@ def list_animals():
         animal["_id"] = str(animal["_id"])
 
     return animals
+
+@router.get("/{animal_id}")
+def animal_details(animal_id: str):
+
+    animal = get_animal_by_id(animal_id)
+
+    if not animal:
+        raise HTTPException(
+            status_code=404,
+            detail="Animal not found"
+        )
+
+    animal["_id"] = str(animal["_id"])
+
+    return animal
 
 
 @router.get("/{animal_id}")
