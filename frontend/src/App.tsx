@@ -1,25 +1,62 @@
-import { useEffect, useState } from "react";
-import api from "./services/api";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
+
+import AppLayout from "./layouts/AppLayout";
+
+import Dashboard from "./pages/Dashboard";
+import Animals from "./pages/Animals";
+import RegisterAnimal from "./pages/RegisterAnimal";
+import RescueRequests from "./pages/RescueRequests";
+import Health from "./pages/Health";
+import Vaccinations from "./pages/Vaccinations";
+import Settings from "./pages/Settings";
 
 function App() {
-    const [message, setMessage] = useState("");
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route
+            path="/"
+            element={<Dashboard />}
+          />
 
-    useEffect(() => {
-        api.get("/")
-            .then((response) => {
-                setMessage(response.data.message);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+          <Route
+            path="/animals"
+            element={<Animals />}
+          />
 
-    return (
-        <div style={{ padding: "40px" }}>
-            <h1>Vrinda</h1>
-            <h2>{message}</h2>
-        </div>
-    );
+          <Route
+            path="/animals/register"
+            element={<RegisterAnimal />}
+          />
+
+          <Route
+            path="/rescue"
+            element={<RescueRequests />}
+          />
+
+          <Route
+            path="/health"
+            element={<Health />}
+          />
+
+          <Route
+            path="/vaccinations"
+            element={<Vaccinations />}
+          />
+
+          <Route
+            path="/settings"
+            element={<Settings />}
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
