@@ -9,6 +9,7 @@ from app.dependencies.auth import get_current_user
 from app.database.connection import db
 from app.routes.auth import router as auth_router
 
+from app.routes.health import router as health_router
 app = FastAPI(
     title="Vrinda API",
     version="1.0.0"
@@ -30,7 +31,7 @@ app.add_middleware(
 # Register all authentication routes
 app.include_router(auth_router)
 app.include_router(animal_router)
-
+app.include_router(health_router)
 
 @app.get("/")
 def root():

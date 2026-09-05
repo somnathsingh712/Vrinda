@@ -6,6 +6,8 @@ import {
 
 import AppLayout from "./layouts/AppLayout";
 
+import AnimalHealth from "./pages/AnimalHealth";
+
 import Dashboard from "./pages/Dashboard";
 import Animals from "./pages/Animals";
 import RegisterAnimal from "./pages/RegisterAnimal";
@@ -23,7 +25,10 @@ function App() {
             path="/"
             element={<Dashboard />}
           />
-
+    <Route
+    path="/animals/:animalId/health"
+    element={<AnimalHealth />}
+/>
           <Route
             path="/animals"
             element={<Animals />}
