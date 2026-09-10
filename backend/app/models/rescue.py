@@ -20,4 +20,6 @@ def create_rescue_document(
         "assigned_to": None,
         "created_by": created_by,
         "created_at": datetime.utcnow(),
+        "assigned_volunteer": None,
+        "assigned_at": None,
     }

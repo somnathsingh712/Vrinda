@@ -27,3 +27,18 @@ def accept_rescue_request(request_id: str):
             }
         }
     )
+
+from datetime import datetime
+
+def assign_volunteer(request_id: str, volunteer_name: str):
+    return db.rescue_requests.update_one(
+        {
+            "request_id": request_id
+        },
+        {
+            "$set": {
+                "assigned_volunteer": volunteer_name,
+                "assigned_at": datetime.utcnow()
+            }
+        }
+    )

@@ -1,12 +1,17 @@
 from fastapi import APIRouter
 
 from app.schemas.rescue import RescueRequestCreate
+from app.schemas.assignment import VolunteerAssignment
+
 from app.models.rescue import create_rescue_document
+
 from app.services.rescue_service import (
     create_rescue_request,
     get_all_rescue_requests,
     accept_rescue_request,
+    assign_volunteer,
 )
+
 router = APIRouter(
     prefix="/rescue",
     tags=["Rescue Requests"],
@@ -40,6 +45,7 @@ def list_rescue_requests():
 
     return requests
 
+
 @router.get("/{request_id}")
 def get_rescue_request(request_id: str):
 
@@ -60,6 +66,7 @@ def get_rescue_request(request_id: str):
 
     return request
 
+
 @router.put("/{request_id}/accept")
 def accept_request(request_id: str):
 
@@ -72,4 +79,25 @@ def accept_request(request_id: str):
 
     return {
         "message": "Request accepted successfully"
+    }
+
+
+@router.put("/{request_id}/assign")
+def assign_request(
+    request_id: str,
+    assignment: VolunteerAssignment,
+):
+
+    result = assign_volunteer(
+        request_id,
+        assignment.volunteer_name,
+    )
+
+    if result.matched_count == 0:
+        return {
+            "message": "Request not found"
+        }
+
+    return {
+        "message": "Volunteer assigned successfully"
     }

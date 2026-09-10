@@ -12,12 +12,14 @@ import AnimalDetails from "./pages/AnimalDetails";
 import AnimalHealth from "./pages/AnimalHealth";
 import AddHealthRecord from "./pages/AddHealthRecord";
 import RegisterAnimal from "./pages/RegisterAnimal";
+
 import RescueRequests from "./pages/RescueRequests";
+import RescueDetails from "./pages/RescueDetails";
+import NewRescueRequest from "./pages/NewRescueRequest";
+
 import Health from "./pages/Health";
 import Vaccinations from "./pages/Vaccinations";
 import Settings from "./pages/Settings";
-import NewRescueRequest from "./pages/NewRescueRequest";
-import RescueDetails from "./pages/RescueDetails";
 
 function App() {
   return (
@@ -26,20 +28,13 @@ function App() {
 
         <Route element={<AppLayout />}>
 
+          {/* Dashboard */}
           <Route
             path="/"
             element={<Dashboard />}
           />
 
-          <Route
-  path="/rescue/new"
-  element={<NewRescueRequest />}
-/>
-<Route
-  path="/rescue/:requestId"
-  element={<RescueDetails />}
-/>
-
+          {/* Animals */}
           <Route
             path="/animals"
             element={<Animals />}
@@ -65,11 +60,23 @@ function App() {
             element={<AddHealthRecord />}
           />
 
+          {/* Rescue */}
           <Route
             path="/rescue"
             element={<RescueRequests />}
           />
 
+          <Route
+            path="/rescue/new"
+            element={<NewRescueRequest />}
+          />
+
+          <Route
+            path="/rescue/:requestId"
+            element={<RescueDetails />}
+          />
+
+          {/* Other Pages */}
           <Route
             path="/health"
             element={<Health />}

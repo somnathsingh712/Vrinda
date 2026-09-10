@@ -27,7 +27,7 @@ function RescueRequests() {
       const response = await api.get("/rescue/");
       setRequests(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching rescue requests:", error);
     } finally {
       setLoading(false);
     }
@@ -35,6 +35,7 @@ function RescueRequests() {
 
   return (
     <div>
+      {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">
@@ -48,29 +49,56 @@ function RescueRequests() {
 
         <Link
           to="/rescue/new"
-          className="rounded-lg bg-red-600 px-5 py-3 text-white hover:bg-red-700"
+          onClick={(e) => e.stopPropagation()}
+          className="rounded-lg bg-red-600 px-5 py-3 text-white transition hover:bg-red-700"
         >
           + New Request
         </Link>
       </div>
 
+      {/* Loading */}
       {loading ? (
-        <p>Loading...</p>
+        <div className="rounded-xl border bg-white p-8 text-center shadow-sm">
+          Loading rescue requests...
+        </div>
       ) : requests.length === 0 ? (
-        <div className="rounded-xl border p-10 text-center">
-          No rescue requests.
+        <div className="rounded-xl border bg-white p-10 text-center shadow-sm">
+          <h2 className="text-xl font-semibold">
+            No Rescue Requests
+          </h2>
+
+          <p className="mt-2 text-gray-500">
+            Create your first rescue request.
+          </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
           <table className="min-w-full">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-3 text-left">Request ID</th>
-                <th className="px-4 py-3 text-left">Reporter</th>
-                <th className="px-4 py-3 text-left">Animal</th>
-                <th className="px-4 py-3 text-left">Location</th>
-                <th className="px-4 py-3 text-left">Urgency</th>
-                <th className="px-4 py-3 text-left">Status</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Request ID
+                </th>
+
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Reporter
+                </th>
+
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Animal
+                </th>
+
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Location
+                </th>
+
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Urgency
+                </th>
+
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Status
+                </th>
               </tr>
             </thead>
 
@@ -83,7 +111,7 @@ function RescueRequests() {
                   }
                   className="cursor-pointer border-t transition hover:bg-gray-50"
                 >
-                  <td className="px-4 py-3 font-mono">
+                  <td className="px-4 py-3 font-mono text-sm">
                     {request.request_id}
                   </td>
 

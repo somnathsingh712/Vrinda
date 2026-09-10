@@ -11,6 +11,7 @@ interface RescueRequest {
   location: string;
   urgency: string;
   status: string;
+  assigned_volunteer?: string;
 }
 
 function RescueDetails() {
@@ -46,6 +47,27 @@ function RescueDetails() {
     } catch (error) {
       console.error(error);
       alert("Unable to accept request.");
+    }
+  }
+
+  async function assignVolunteer() {
+    if (!request) return;
+
+    const volunteer = prompt("Enter volunteer name");
+
+    if (!volunteer) return;
+
+    try {
+      await api.put(`/rescue/${request.request_id}/assign`, {
+        volunteer_name: volunteer,
+      });
+
+      alert("Volunteer Assigned");
+
+      fetchRequest();
+    } catch (error) {
+      console.error(error);
+      alert("Unable to assign volunteer.");
     }
   }
 
@@ -124,6 +146,16 @@ function RescueDetails() {
             </span>
           </div>
 
+          <div className="col-span-2">
+            <p className="text-gray-500">
+              Assigned Volunteer
+            </p>
+
+            <h3>
+              {request.assigned_volunteer || "Not Assigned"}
+            </h3>
+          </div>
+
         </div>
 
         <div className="mt-8">
@@ -146,6 +178,13 @@ function RescueDetails() {
               Accept Request
             </button>
           )}
+
+          <button
+            onClick={assignVolunteer}
+            className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
+          >
+            Assign Volunteer
+          </button>
 
         </div>
 
