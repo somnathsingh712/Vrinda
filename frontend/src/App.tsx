@@ -6,10 +6,11 @@ import {
 
 import AppLayout from "./layouts/AppLayout";
 
-import AnimalHealth from "./pages/AnimalHealth";
-
 import Dashboard from "./pages/Dashboard";
 import Animals from "./pages/Animals";
+import AnimalDetails from "./pages/AnimalDetails";
+import AnimalHealth from "./pages/AnimalHealth";
+import AddHealthRecord from "./pages/AddHealthRecord";
 import RegisterAnimal from "./pages/RegisterAnimal";
 import RescueRequests from "./pages/RescueRequests";
 import Health from "./pages/Health";
@@ -20,15 +21,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route element={<AppLayout />}>
+
           <Route
             path="/"
             element={<Dashboard />}
           />
-    <Route
-    path="/animals/:animalId/health"
-    element={<AnimalHealth />}
-/>
+
           <Route
             path="/animals"
             element={<Animals />}
@@ -37,6 +37,21 @@ function App() {
           <Route
             path="/animals/register"
             element={<RegisterAnimal />}
+          />
+
+          <Route
+            path="/animals/:animalId"
+            element={<AnimalDetails />}
+          />
+
+          <Route
+            path="/animals/:animalId/health"
+            element={<AnimalHealth />}
+          />
+
+          <Route
+            path="/animals/:animalId/health/add"
+            element={<AddHealthRecord />}
           />
 
           <Route
@@ -58,7 +73,9 @@ function App() {
             path="/settings"
             element={<Settings />}
           />
+
         </Route>
+
       </Routes>
     </BrowserRouter>
   );
