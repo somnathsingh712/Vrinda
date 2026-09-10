@@ -34,7 +34,8 @@ app.add_middleware(
 # Register all authentication routes
 app.include_router(auth_router)
 app.include_router(animal_router)
-
+app.include_router(health_router)
+app.include_router(rescue_router)
 
 @app.get("/")
 def root():

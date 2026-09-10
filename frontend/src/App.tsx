@@ -16,6 +16,8 @@ import RescueRequests from "./pages/RescueRequests";
 import Health from "./pages/Health";
 import Vaccinations from "./pages/Vaccinations";
 import Settings from "./pages/Settings";
+import NewRescueRequest from "./pages/NewRescueRequest";
+import RescueDetails from "./pages/RescueDetails";
 
 function App() {
   return (
@@ -28,6 +30,15 @@ function App() {
             path="/"
             element={<Dashboard />}
           />
+
+          <Route
+  path="/rescue/new"
+  element={<NewRescueRequest />}
+/>
+<Route
+  path="/rescue/:requestId"
+  element={<RescueDetails />}
+/>
 
           <Route
             path="/animals"
