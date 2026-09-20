@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+
 import api from "../services/api";
 
 interface Animal {
@@ -57,9 +58,7 @@ function AnimalDetails() {
 
   return (
     <div>
-
       <div className="mb-8 flex items-center justify-between">
-
         <div>
           <h1 className="text-3xl font-bold">
             {animal.name}
@@ -76,13 +75,10 @@ function AnimalDetails() {
         >
           Back
         </Link>
-
       </div>
 
       <div className="rounded-xl border bg-white p-6 shadow-sm">
-
         <div className="grid grid-cols-2 gap-6">
-
           <div>
             <p className="text-gray-500">Animal ID</p>
             <h3 className="font-semibold">
@@ -140,7 +136,6 @@ function AnimalDetails() {
             <p className="text-gray-500">Diet</p>
             <h3>{animal.diet || "-"}</h3>
           </div>
-
         </div>
 
         <div className="mt-6">
@@ -149,30 +144,35 @@ function AnimalDetails() {
           </p>
 
           <p className="mt-2">
-            {animal.description || "No description available."}
+            {animal.description ||
+              "No description available."}
           </p>
         </div>
 
-        <div className="mt-8 flex gap-4">
-
+        {/* Animal Records */}
+        <div className="mt-8 flex flex-wrap gap-4">
           <Link
             to={`/animals/${animal.animal_id}/health`}
-            className="rounded-lg bg-blue-600 px-5 py-3 text-white"
+            className="rounded-lg bg-blue-600 px-5 py-3 text-white transition hover:bg-blue-700"
           >
             View Health Records
           </Link>
 
           <Link
             to={`/animals/${animal.animal_id}/health/add`}
-            className="rounded-lg bg-green-600 px-5 py-3 text-white"
+            className="rounded-lg bg-green-600 px-5 py-3 text-white transition hover:bg-green-700"
           >
             Add Health Record
           </Link>
 
+          <Link
+            to={`/animals/${animal.animal_id}/vaccinations`}
+            className="rounded-lg bg-purple-600 px-5 py-3 text-white transition hover:bg-purple-700"
+          >
+            View Vaccinations
+          </Link>
         </div>
-
       </div>
-
     </div>
   );
 }

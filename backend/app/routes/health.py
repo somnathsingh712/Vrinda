@@ -5,8 +5,8 @@ from app.models.health import create_health_document
 from app.services.health_service import (
     create_health_record,
     get_health_records,
+    get_all_health_records,
 )
-
 router = APIRouter(
     prefix="/health",
     tags=["Health Records"],
@@ -29,6 +29,14 @@ def add_health_record(
         "record_id": str(result.inserted_id),
     }
 
+@router.get("/all")
+def list_all_health_records():
+    records = get_all_health_records()
+
+    for record in records:
+        record["_id"] = str(record["_id"])
+
+    return records
 
 @router.get("/{animal_id}")
 def list_health_records(animal_id: str):

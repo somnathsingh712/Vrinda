@@ -7,6 +7,7 @@ import {
 import AppLayout from "./layouts/AppLayout";
 
 import Dashboard from "./pages/Dashboard";
+
 import Animals from "./pages/Animals";
 import AnimalDetails from "./pages/AnimalDetails";
 import AnimalHealth from "./pages/AnimalHealth";
@@ -19,11 +20,15 @@ import NewRescueRequest from "./pages/NewRescueRequest";
 
 import Volunteers from "./pages/Volunteers";
 import VolunteerDetails from "./pages/VolunteerDetails";
-import Health from "./pages/Health";
-import Vaccinations from "./pages/Vaccinations";
-import Settings from "./pages/Settings";
 import NewVolunteer from "./pages/NewVolunteer";
 
+import Health from "./pages/Health";
+import Vaccinations from "./pages/Vaccinations";
+import AddVaccination from "./pages/AddVaccination";
+
+import Settings from "./pages/Settings";
+
+import AnimalVaccinations from "./pages/AnimalVaccinations";
 function App() {
   return (
     <BrowserRouter>
@@ -31,22 +36,19 @@ function App() {
 
         <Route element={<AppLayout />}>
 
-          <Route
-  path="/volunteers/new"
-  element={<NewVolunteer />}
-/>
-          <Route
-  path="/volunteers/:volunteerId"
-  element={<VolunteerDetails />}
-/>
-
+          {/* ==================== */}
           {/* Dashboard */}
+          {/* ==================== */}
+
           <Route
             path="/"
             element={<Dashboard />}
           />
 
+          {/* ==================== */}
           {/* Animals */}
+          {/* ==================== */}
+
           <Route
             path="/animals"
             element={<Animals />}
@@ -62,17 +64,25 @@ function App() {
             element={<AnimalDetails />}
           />
 
+          {/* Animal Health */}
+
           <Route
             path="/animals/:animalId/health"
             element={<AnimalHealth />}
           />
-
+<Route
+  path="/animals/:animalId/vaccinations"
+  element={<AnimalVaccinations />}
+/>
           <Route
             path="/animals/:animalId/health/add"
             element={<AddHealthRecord />}
           />
 
+          {/* ==================== */}
           {/* Rescue */}
+          {/* ==================== */}
+
           <Route
             path="/rescue"
             element={<RescueRequests />}
@@ -88,22 +98,51 @@ function App() {
             element={<RescueDetails />}
           />
 
+          {/* ==================== */}
           {/* Volunteers */}
+          {/* ==================== */}
+
           <Route
             path="/volunteers"
             element={<Volunteers />}
           />
 
-          {/* Other Pages */}
+          <Route
+            path="/volunteers/new"
+            element={<NewVolunteer />}
+          />
+
+          <Route
+            path="/volunteers/:volunteerId"
+            element={<VolunteerDetails />}
+          />
+
+          {/* ==================== */}
+          {/* Health */}
+          {/* ==================== */}
+
           <Route
             path="/health"
             element={<Health />}
           />
 
+          {/* ==================== */}
+          {/* Vaccinations */}
+          {/* ==================== */}
+
           <Route
             path="/vaccinations"
             element={<Vaccinations />}
           />
+
+          <Route
+            path="/vaccinations/add"
+            element={<AddVaccination />}
+          />
+
+          {/* ==================== */}
+          {/* Settings */}
+          {/* ==================== */}
 
           <Route
             path="/settings"

@@ -13,3 +13,13 @@ def get_health_records(animal_id: str):
             }
         ).sort("created_at", -1)
     )
+
+
+
+def get_all_health_records():
+    return list(
+        db.health_records.find().sort(
+            "created_at",
+            -1
+        )
+    )

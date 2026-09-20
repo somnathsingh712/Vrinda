@@ -11,6 +11,7 @@ from app.routes.health import router as health_router
 from app.routes.rescue import router as rescue_router
 from app.routes.volunteer import router as volunteer_router
 
+from app.routes.vaccination import router as vaccination_router
 
 app = FastAPI(
     title="Vrinda API",
@@ -39,7 +40,7 @@ app.include_router(animal_router)
 app.include_router(health_router)
 app.include_router(rescue_router)
 app.include_router(volunteer_router)
-
+app.include_router(vaccination_router)
 
 @app.get("/")
 def root():

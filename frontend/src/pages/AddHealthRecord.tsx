@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import api from "../services/api";
 
 function AddHealthRecord() {
@@ -19,7 +19,9 @@ function AddHealthRecord() {
   const [loading, setLoading] = useState(false);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement
+    >
   ) {
     setFormData({
       ...formData,
@@ -28,173 +30,223 @@ function AddHealthRecord() {
   }
 
   async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
+    e: React.FormEvent
   ) {
     e.preventDefault();
+
+    if (!animalId) {
+      alert("Animal ID is missing.");
+      return;
+    }
 
     setLoading(true);
 
     try {
       await api.post("/health/", {
         animal_id: animalId,
-        ...formData,
+        date: formData.date,
+        condition: formData.condition,
+        treatment: formData.treatment,
+        medicine: formData.medicine,
+        doctor: formData.doctor,
+        next_visit: formData.next_visit,
+        notes: formData.notes,
       });
 
       alert("Health record added successfully!");
 
-      navigate(`/animals/${animalId}/health`);
+      navigate(
+        `/animals/${animalId}/health`
+      );
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Error adding health record:",
+        error
+      );
 
-      alert("Failed to add health record.");
+      alert(
+        "Unable to add health record."
+      );
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="mx-auto max-w-3xl rounded-xl border bg-white p-8 shadow-sm">
+    <div className="max-w-4xl">
 
-      <h1 className="mb-2 text-3xl font-bold">
-        Add Health Record
-      </h1>
-
-      <p className="mb-8 text-gray-600">
-        Record a medical treatment for this animal.
-      </p>
-
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6"
-      >
+      {/* Header */}
+      <div className="mb-8 flex items-center justify-between">
 
         <div>
-          <label className="mb-2 block font-medium">
-            Date
-          </label>
+          <h1 className="text-3xl font-bold">
+            Add Health Record
+          </h1>
 
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border p-3"
-          />
+          <p className="mt-2 text-gray-600">
+            Record medical information for this animal.
+          </p>
         </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Condition
-          </label>
+        <Link
+          to={`/animals/${animalId}/health`}
+          className="rounded-lg border px-5 py-3 hover:bg-gray-100"
+        >
+          Back
+        </Link>
 
-          <input
-            type="text"
-            name="condition"
-            value={formData.condition}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border p-3"
-            placeholder="Example: Leg Injury"
-          />
-        </div>
+      </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Treatment
-          </label>
+      {/* Form */}
+      <div className="rounded-xl border bg-white p-8 shadow-sm">
 
-          <input
-            type="text"
-            name="treatment"
-            value={formData.treatment}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border p-3"
-            placeholder="Bandage and Cleaning"
-          />
-        </div>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+        >
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Medicine
-          </label>
+          {/* Date */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Date
+            </label>
 
-          <input
-            type="text"
-            name="medicine"
-            value={formData.medicine}
-            onChange={handleChange}
-            className="w-full rounded-lg border p-3"
-            placeholder="Amoxicillin"
-          />
-        </div>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Doctor
-          </label>
+          {/* Condition */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Condition
+            </label>
 
-          <input
-            type="text"
-            name="doctor"
-            value={formData.doctor}
-            onChange={handleChange}
-            className="w-full rounded-lg border p-3"
-            placeholder="Dr. Sharma"
-          />
-        </div>
+            <input
+              type="text"
+              name="condition"
+              value={formData.condition}
+              onChange={handleChange}
+              placeholder="Example: Fever, Injury, Healthy"
+              required
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Next Visit
-          </label>
+          {/* Treatment */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Treatment
+            </label>
 
-          <input
-            type="date"
-            name="next_visit"
-            value={formData.next_visit}
-            onChange={handleChange}
-            className="w-full rounded-lg border p-3"
-          />
-        </div>
+            <textarea
+              name="treatment"
+              value={formData.treatment}
+              onChange={handleChange}
+              placeholder="Describe the treatment provided"
+              required
+              rows={3}
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Notes
-          </label>
+          {/* Medicine */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Medicine
+            </label>
 
-          <textarea
-            rows={5}
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-            className="w-full rounded-lg border p-3"
-            placeholder="Additional observations..."
-          />
-        </div>
+            <input
+              type="text"
+              name="medicine"
+              value={formData.medicine}
+              onChange={handleChange}
+              placeholder="Example: Antibiotic"
+              required
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
 
-        <div className="flex gap-4">
+          {/* Doctor */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Doctor
+            </label>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-gray-900 px-6 py-3 text-white hover:bg-gray-800 disabled:opacity-50"
-          >
-            {loading ? "Saving..." : "Save Record"}
-          </button>
+            <input
+              type="text"
+              name="doctor"
+              value={formData.doctor}
+              onChange={handleChange}
+              placeholder="Veterinarian name"
+              required
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
 
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="rounded-lg border px-6 py-3"
-          >
-            Cancel
-          </button>
+          {/* Next Visit */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Next Visit
+            </label>
 
-        </div>
+            <input
+              type="date"
+              name="next_visit"
+              value={formData.next_visit}
+              onChange={handleChange}
+              required
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
 
-      </form>
+          {/* Notes */}
+          <div>
+            <label className="mb-2 block text-sm font-medium">
+              Notes
+            </label>
+
+            <textarea
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+              placeholder="Additional medical notes"
+              required
+              rows={4}
+              className="w-full rounded-lg border border-gray-300 p-3"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-4 border-t pt-6">
+
+            <Link
+              to={`/animals/${animalId}/health`}
+              className="rounded-lg border px-6 py-3 hover:bg-gray-100"
+            >
+              Cancel
+            </Link>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700 disabled:opacity-50"
+            >
+              {loading
+                ? "Saving..."
+                : "Save Health Record"}
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
 
     </div>
   );
