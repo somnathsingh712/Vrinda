@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from app.database.connection import db
 
 
@@ -13,13 +15,12 @@ def get_all_rescue_requests():
         )
     )
 
-from app.database.connection import db
-
 
 def accept_rescue_request(request_id: str):
     return db.rescue_requests.update_one(
         {
-            "request_id": request_id
+            "request_id": request_id,
+            "status": "Pending"
         },
         {
             "$set": {
@@ -28,17 +29,56 @@ def accept_rescue_request(request_id: str):
         }
     )
 
-from datetime import datetime
 
-def assign_volunteer(request_id: str, volunteer_name: str):
+def assign_volunteer(
+    request_id: str,
+    volunteer_id: str,
+):
     return db.rescue_requests.update_one(
         {
-            "request_id": request_id
+            "request_id": request_id,
+            "status": {
+                "$in": [
+                    "Accepted",
+                    "Pending"
+                ]
+            }
         },
         {
             "$set": {
-                "assigned_volunteer": volunteer_name,
-                "assigned_at": datetime.utcnow()
+                "assigned_volunteer": volunteer_id,
+                "assigned_at": datetime.utcnow(),
+                "status": "Assigned",
+            }
+        }
+    )
+
+
+def start_rescue(request_id: str):
+    return db.rescue_requests.update_one(
+        {
+            "request_id": request_id,
+            "status": "Assigned"
+        },
+        {
+            "$set": {
+                "status": "In Progress",
+                "started_at": datetime.utcnow(),
+            }
+        }
+    )
+
+
+def complete_rescue(request_id: str):
+    return db.rescue_requests.update_one(
+        {
+            "request_id": request_id,
+            "status": "In Progress"
+        },
+        {
+            "$set": {
+                "status": "Completed",
+                "completed_at": datetime.utcnow(),
             }
         }
     )

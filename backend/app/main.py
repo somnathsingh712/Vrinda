@@ -1,27 +1,28 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes.animal import router as animal_router
-
-from fastapi import Depends
 from app.dependencies.auth import get_current_user
 
 from app.database.connection import db
+
 from app.routes.auth import router as auth_router
-
-
-from app.routes.rescue import router as rescue_router
-
+from app.routes.animal import router as animal_router
 from app.routes.health import router as health_router
+from app.routes.rescue import router as rescue_router
+from app.routes.volunteer import router as volunteer_router
+
+
 app = FastAPI(
     title="Vrinda API",
     version="1.0.0"
 )
 
+
 # Allow React frontend to access the backend
 origins = [
     "http://localhost:5173",
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,11 +32,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register all authentication routes
+
+# Register all API routes
 app.include_router(auth_router)
 app.include_router(animal_router)
 app.include_router(health_router)
 app.include_router(rescue_router)
+app.include_router(volunteer_router)
+
 
 @app.get("/")
 def root():
@@ -57,6 +61,7 @@ def test_db():
         "status": "Success",
         "inserted_id": str(result.inserted_id)
     }
+
 
 @app.get("/profile")
 def profile(

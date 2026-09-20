@@ -17,9 +17,12 @@ import RescueRequests from "./pages/RescueRequests";
 import RescueDetails from "./pages/RescueDetails";
 import NewRescueRequest from "./pages/NewRescueRequest";
 
+import Volunteers from "./pages/Volunteers";
+import VolunteerDetails from "./pages/VolunteerDetails";
 import Health from "./pages/Health";
 import Vaccinations from "./pages/Vaccinations";
 import Settings from "./pages/Settings";
+import NewVolunteer from "./pages/NewVolunteer";
 
 function App() {
   return (
@@ -27,6 +30,15 @@ function App() {
       <Routes>
 
         <Route element={<AppLayout />}>
+
+          <Route
+  path="/volunteers/new"
+  element={<NewVolunteer />}
+/>
+          <Route
+  path="/volunteers/:volunteerId"
+  element={<VolunteerDetails />}
+/>
 
           {/* Dashboard */}
           <Route
@@ -74,6 +86,12 @@ function App() {
           <Route
             path="/rescue/:requestId"
             element={<RescueDetails />}
+          />
+
+          {/* Volunteers */}
+          <Route
+            path="/volunteers"
+            element={<Volunteers />}
           />
 
           {/* Other Pages */}

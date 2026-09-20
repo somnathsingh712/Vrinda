@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { NavLink } from "react-router-dom";
+import { Users } from "lucide-react";
 
 const menuItems = [
   {
@@ -31,6 +32,12 @@ const menuItems = [
     path: "/rescue",
     icon: Siren,
   },
+
+  {
+  name: "Volunteers",
+  path: "/volunteers",
+  icon: Users,
+},
   {
     name: "Health",
     path: "/health",
@@ -46,6 +53,8 @@ const menuItems = [
     path: "/settings",
     icon: Settings,
   },
+
+  
 ];
 
 function Sidebar() {
