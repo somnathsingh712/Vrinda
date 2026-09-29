@@ -57,10 +57,8 @@ def register_user(user: UserRegister):
         "user_id": str(result.inserted_id)
     }
 
-
 @router.post("/login")
 def login_user(user: UserLogin):
-
     existing_user = db.users.find_one({
         "email": user.email.lower()
     })
@@ -83,6 +81,7 @@ def login_user(user: UserLogin):
     access_token = create_access_token(
         {
             "sub": str(existing_user["_id"]),
+            "name": existing_user["name"],
             "email": existing_user["email"],
             "role": existing_user["role"]
         }
